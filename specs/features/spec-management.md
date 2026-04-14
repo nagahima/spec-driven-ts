@@ -78,17 +78,33 @@ export interface SpecChangeProposal {
 }
 ```
 
+## ストレージ構造
+
+全データはファイルシステムで管理する（環境ポータビリティ・Git追跡のため）。
+
+```
+specs/
+  features/          # 機能仕様（Markdown）
+  design/            # デザイン仕様（Markdown）
+  elaborated/        # 詳細仕様（Markdown）
+  tasks/             # タスクリスト（JSON）
+  issues/            # SpecIssue（JSON）
+  proposals/         # SpecChangeProposal（JSON）
+  bugs/              # BugReport（JSON）
+  versions/          # バージョン履歴（Markdown diff）
+```
+
 ## インターフェース（CLIコマンド）
 
 | コマンド | 説明 |
 |---------|------|
-| `spec new [name] "[概要]"` | 仕様を新規作成 |
-| `spec check [name]` | 仕様を校正し指摘事項を返す |
-| `spec resolve [name] [issue-id]` | 指摘事項に回答して解決 |
-| `spec impact [name]` | 変更時の影響範囲を分析 |
-| `spec log [name]` | バージョン履歴を表示 |
-| `spec graph` | 全仕様の依存グラフを表示 |
-| `spec approve [proposal-id]` | 修正提案を承認・反映 |
+| `sdd spec new [name] "[概要]"` | 仕様を新規作成 |
+| `sdd spec check [name]` | 仕様を校正し指摘事項を返す |
+| `sdd spec resolve [name] [issue-id]` | 指摘事項に回答して解決 |
+| `sdd spec impact [name]` | 変更時の影響範囲を分析 |
+| `sdd spec log [name]` | バージョン履歴を表示 |
+| `sdd spec graph` | 全仕様の依存グラフを表示 |
+| `sdd spec approve [proposal-id]` | 修正提案を承認・反映 |
 
 ## 非機能要件
 

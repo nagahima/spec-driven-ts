@@ -107,9 +107,9 @@ export interface NonFunctionalDetail {
 
 | コマンド | 説明 |
 |---------|------|
-| `spec elaborate [name]` | 詳細仕様を生成・保存 |
-| `spec elaborate --diff [name]` | 再生成時に既存との差分を表示 |
-| `spec elaborate --summary [name]` | アーキテクチャ決定のサマリーのみ表示 |
+| `sdd spec elaborate [name]` | 詳細仕様を生成・保存 |
+| `sdd spec elaborate --diff [name]` | 再生成時に既存との差分を表示 |
+| `sdd spec elaborate --summary [name]` | アーキテクチャ決定のサマリーのみ表示 |
 
 ## 非機能要件
 

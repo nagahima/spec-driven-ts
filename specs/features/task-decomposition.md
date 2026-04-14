@@ -65,9 +65,9 @@ export interface TaskDependency {
 
 | コマンド | 説明 |
 |---------|------|
-| `task generate [spec-name]` | 詳細仕様からタスクを生成 |
-| `task list [spec-name]` | タスク一覧を依存順で表示 |
-| `task roadmap` | 全仕様の横断ロードマップを表示 |
+| `sdd task generate [name]` | 詳細仕様からタスクを生成 |
+| `sdd task list [name]` | タスク一覧を依存順で表示 |
+| `sdd task roadmap` | 全仕様の横断ロードマップを表示 |
 
 ## 非機能要件
 
