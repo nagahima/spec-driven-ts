@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
-import type { SpecIssue } from 'types'
+import type { SpecIssue, BugAnalysis } from 'types'
 import type { StoredTask } from './specs'
 
 function getClient(): Anthropic {
@@ -161,4 +161,81 @@ ${elaboratedContent}
     created_at: now,
     updated_at: now,
   }))
+}
+
+export async function analyzeBug(
+  description: string,
+  specIndex: string,
+  specContent: string
+): Promise<BugAnalysis> {
+  const client = getClient()
+
+  // Step 1: 関連仕様の特定
+  const identifyRes = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 256,
+    messages: [{
+      role: 'user',
+      content: `以下のバグ報告に最も関連する仕様を特定してください。
+
+バグ報告: ${description}
+
+仕様一覧:
+${specIndex}
+
+最も関連する仕様名を1つだけ返してください（例: auth-login）。仕様名のみ。`,
+    }],
+  })
+  const specName = identifyRes.content[0].type === 'text'
+    ? identifyRes.content[0].text.trim().split('\n')[0].trim()
+    : 'unknown'
+
+  // Step 2: 詳細分析（関連仕様のみ渡す）
+  const analyzeRes = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1024,
+    messages: [{
+      role: 'user',
+      content: `バグ分析専門家として、以下のバグを分析してください。
+
+バグ報告: ${description}
+
+関連仕様 (${specName}):
+${specContent}
+
+以下のJSON形式のみ返してください:
+{"root_cause":"implementation"|"spec-defect"|"unknown","affected_spec_id":"${specName}","affected_acceptance_condition":"AC-XX","confidence":0.9,"reasoning":"分析の根拠（日本語）"}`,
+    }],
+  })
+
+  const text = analyzeRes.content[0].type === 'text' ? analyzeRes.content[0].text : '{}'
+  return parseJson<BugAnalysis>(text)
+}
+
+export async function generateBugFixTask(
+  bugDescription: string,
+  analysis: BugAnalysis,
+  specContent: string
+): Promise<Pick<StoredTask, 'id' | 'title' | 'description' | 'estimate' | 'depends_on'>> {
+  const client = getClient()
+  const response = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 512,
+    messages: [{
+      role: 'user',
+      content: `以下のバグを修正するタスクを1件生成してください。
+
+バグ: ${bugDescription}
+原因: ${analysis.reasoning}
+違反している受け入れ条件: ${analysis.affected_acceptance_condition}
+
+関連仕様:
+${specContent}
+
+以下のJSON形式のみ返してください:
+{"id":"bug-fix-001","title":"タイトル","description":"具体的な修正内容","estimate":{"size":"S","hours_min":1,"hours_max":3,"rationale":"根拠"},"depends_on":[]}`,
+    }],
+  })
+  const text = response.content[0].type === 'text' ? response.content[0].text : '{}'
+  return parseJson(text)
 }

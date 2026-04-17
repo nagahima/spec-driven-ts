@@ -72,14 +72,23 @@ export interface TaskEstimate {
 }
 
 // バグ管理
-export type BugStatus = 'open' | 'analyzing' | 'fixing' | 'resolved' | 'spec-defect' | 'unresolved' | 'unclassified'
+export type BugStatus = 'open' | 'analyzing' | 'resolved' | 'spec-defect' | 'unclassified'
+
+export interface BugAnalysis {
+  root_cause: 'implementation' | 'spec-defect' | 'unknown'
+  affected_spec_id: string
+  affected_acceptance_condition: string
+  confidence: number
+  reasoning: string
+}
 
 export interface BugReport {
   id: string
   description: string
   status: BugStatus
-  spec_id?: string
-  acceptance_condition?: string
+  analysis?: BugAnalysis
+  fix_task_id?: string
+  change_proposal_id?: string
   created_at: string
   updated_at: string
 }

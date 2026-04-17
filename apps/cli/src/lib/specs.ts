@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'fs'
 import { join, dirname } from 'path'
-import type { SpecIssue, Task } from 'types'
+import type { SpecIssue, Task, BugReport, SpecChangeProposal } from 'types'
 
 function findProjectRoot(start: string = process.cwd()): string {
   let dir = start
@@ -97,4 +97,56 @@ export function listAllTaskFiles(): string[] {
   return readdirSync(dir)
     .filter(f => f.endsWith('.json'))
     .map(f => f.replace('.json', ''))
+}
+
+export function appendTask(specName: string, task: StoredTask): void {
+  const tasks = readTasks(specName)
+  tasks.push(task)
+  saveTasks(specName, tasks)
+}
+
+// バグ管理
+const BUGS_PATH = () => join(getSpecsDir(), 'bugs', 'bugs.json')
+
+export function readBugs(): BugReport[] {
+  const path = BUGS_PATH()
+  if (!existsSync(path)) return []
+  return JSON.parse(readFileSync(path, 'utf-8'))
+}
+
+export function saveBug(bug: BugReport): void {
+  const dir = join(getSpecsDir(), 'bugs')
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+  const bugs = readBugs().filter(b => b.id !== bug.id)
+  writeFileSync(BUGS_PATH(), JSON.stringify([...bugs, bug], null, 2), 'utf-8')
+}
+
+export function getBug(id: string): BugReport | undefined {
+  return readBugs().find(b => b.id === id)
+}
+
+// 仕様インデックス（バグ分析用軽量サマリー）
+export function buildSpecIndex(): string {
+  const dir = join(getSpecsDir(), 'features')
+  return readdirSync(dir)
+    .filter(f => f.endsWith('.md') && !f.startsWith('_'))
+    .map(f => {
+      const name = f.replace('.md', '')
+      const content = readFileSync(join(dir, f), 'utf-8')
+      const overview = content.match(/## 概要\n([\s\S]*?)(?=\n##|$)/)?.[1].trim().slice(0, 120) ?? ''
+      return `- ${name}: ${overview}`
+    })
+    .join('\n')
+}
+
+// 修正提案
+const PROPOSALS_PATH = () => join(getSpecsDir(), 'proposals', 'proposals.json')
+
+export function saveProposal(proposal: SpecChangeProposal): void {
+  const dir = join(getSpecsDir(), 'proposals')
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+  const existing: SpecChangeProposal[] = existsSync(PROPOSALS_PATH())
+    ? JSON.parse(readFileSync(PROPOSALS_PATH(), 'utf-8'))
+    : []
+  writeFileSync(PROPOSALS_PATH(), JSON.stringify([...existing, proposal], null, 2), 'utf-8')
 }
