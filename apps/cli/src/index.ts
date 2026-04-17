@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from 'commander'
 import { createAuthCommand } from './commands/auth'
+import { createSpecCommand } from './commands/spec'
 
 const program = new Command()
 
@@ -10,5 +11,6 @@ program
   .version('0.1.0')
 
 program.addCommand(createAuthCommand())
+program.addCommand(createSpecCommand())
 
 program.parse()
