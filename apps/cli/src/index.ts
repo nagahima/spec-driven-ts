@@ -2,6 +2,7 @@
 import { Command } from 'commander'
 import { createAuthCommand } from './commands/auth'
 import { createSpecCommand } from './commands/spec'
+import { createTaskCommand } from './commands/task'
 
 const program = new Command()
 
@@ -12,5 +13,6 @@ program
 
 program.addCommand(createAuthCommand())
 program.addCommand(createSpecCommand())
+program.addCommand(createTaskCommand())
 
 program.parse()

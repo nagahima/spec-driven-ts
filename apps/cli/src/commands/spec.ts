@@ -1,7 +1,12 @@
 import { Command } from 'commander'
 import { createInterface } from 'readline'
-import { readTemplate, specExists, readSpec, writeSpec, readIssues, saveIssues, getSpecStatus } from '../lib/specs'
-import { generateSpecDraft, validateSpec } from '../lib/claude'
+import {
+  readTemplate, specExists, readSpec, writeSpec,
+  readIssues, saveIssues, getSpecStatus,
+  parseSpecDependencies, elaboratedSpecExists,
+  readElaboratedSpec, writeElaboratedSpec,
+} from '../lib/specs'
+import { generateSpecDraft, validateSpec, elaborateSpec } from '../lib/claude'
 
 function prompt(question: string): Promise<string> {
   const rl = createInterface({ input: process.stdin, output: process.stdout })
@@ -97,6 +102,50 @@ export function createSpecCommand(): Command {
       if (issues.length > 0) {
         console.log(`指摘: ${unresolved} 件未解決 / ${issues.length} 件合計`)
       }
+    })
+
+  spec
+    .command('elaborate <name>')
+    .description('詳細仕様を生成する')
+    .option('--diff', '既存の詳細仕様との差分を表示')
+    .option('--summary', 'アーキテクチャ決定のサマリーのみ表示')
+    .action(async (name: string, opts: { diff?: boolean; summary?: boolean }) => {
+      const content = readSpec(name)
+      const status = getSpecStatus(content)
+
+      if (status !== 'approved') {
+        console.error(`エラー: ステータスが "approved" でないため実行できません（現在: ${status}）`)
+        process.exit(1)
+      }
+
+      // 依存仕様の詳細仕様を収集（トークン効率: 直接依存のみ）
+      const deps = parseSpecDependencies(content)
+      let depContext = ''
+      for (const dep of deps) {
+        if (elaboratedSpecExists(dep)) {
+          depContext += `\n--- ${dep} ---\n${readElaboratedSpec(dep)}\n`
+        } else if (dep !== 'なし') {
+          console.warn(`警告: ${dep} の詳細仕様がありません（部分情報で生成します）`)
+        }
+      }
+
+      const prevExists = elaboratedSpecExists(name)
+      if (prevExists && opts.diff) {
+        console.log('既存の詳細仕様と差分モードで再生成します...')
+      }
+
+      console.log(`詳細仕様を生成中: ${name}...`)
+      const elaborated = await elaborateSpec(content, depContext)
+
+      if (opts.summary) {
+        const adrSection = elaborated.match(/## アーキテクチャ決定([\s\S]*?)(?=\n##|$)/)
+        console.log(adrSection ? adrSection[0] : '（アーキテクチャ決定セクションが見つかりません）')
+        return
+      }
+
+      writeElaboratedSpec(name, elaborated)
+      console.log(`✓ 保存: specs/elaborated/${name}.md`)
+      console.log(`\n次のステップ: sdd task generate ${name}`)
     })
 
   return spec
