@@ -2,9 +2,10 @@ import { Command } from 'commander'
 import { createInterface } from 'readline'
 import {
   readTemplate, specExists, readSpec, writeSpec,
-  readIssues, saveIssues, getSpecStatus,
+  readIssues, saveIssues, getSpecStatus, setSpecStatus,
   parseSpecDependencies, elaboratedSpecExists,
   readElaboratedSpec, writeElaboratedSpec,
+  getProposal, saveProposal,
 } from '../lib/specs'
 import { generateSpecDraft, validateSpec, elaborateSpec } from '../lib/claude'
 
@@ -102,6 +103,55 @@ export function createSpecCommand(): Command {
       if (issues.length > 0) {
         console.log(`指摘: ${unresolved} 件未解決 / ${issues.length} 件合計`)
       }
+    })
+
+  spec
+    .command('set-status <name> <status>')
+    .description('仕様のステータスを変更する (draft/review/approved/implemented)')
+    .action((name: string, status: string) => {
+      try {
+        const prev = getSpecStatus(readSpec(name))
+        setSpecStatus(name, status)
+        console.log(`✓ ${name}: ${prev} → ${status}`)
+      } catch (err) {
+        console.error(`エラー: ${(err as Error).message}`)
+        process.exit(1)
+      }
+    })
+
+  spec
+    .command('approve <proposalId>')
+    .description('仕様修正提案を承認して仕様に反映する')
+    .action(async (proposalId: string) => {
+      const proposal = getProposal(proposalId)
+      if (!proposal) { console.error(`修正提案が見つかりません: ${proposalId}`); process.exit(1) }
+      if (proposal.status !== 'pending') {
+        console.log(`この提案は既に ${proposal.status} です: ${proposalId}`)
+        return
+      }
+
+      console.log(`\n修正提案: ${proposalId}`)
+      console.log(`対象仕様: ${proposal.spec_id}`)
+      console.log(`理由    : ${proposal.reason}`)
+      console.log(`\n--- 提案内容 ---\n${proposal.proposed_content}\n`)
+
+      const answer = await prompt('この提案を承認して仕様に反映しますか？ (y/N): ')
+      if (answer.toLowerCase() !== 'y') { console.log('キャンセルしました'); return }
+
+      // 仕様ファイルに修正提案のメモを追記
+      try {
+        const current = readSpec(proposal.spec_id)
+        const note = `\n\n---\n## 適用済み修正提案: ${proposalId}\n\n${proposal.proposed_content}\n`
+        writeSpec(proposal.spec_id, current + note)
+      } catch {
+        console.warn(`警告: 仕様ファイルへの書き込みに失敗しました（proposals.jsonのみ更新します）`)
+      }
+
+      proposal.status = 'approved'
+      saveProposal(proposal)
+
+      console.log(`✓ 承認しました: ${proposalId}`)
+      console.log(`仕様を確認して必要な修正を加えてください: specs/features/${proposal.spec_id}.md`)
     })
 
   spec

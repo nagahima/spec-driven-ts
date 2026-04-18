@@ -139,14 +139,35 @@ export function buildSpecIndex(): string {
     .join('\n')
 }
 
+// 仕様ステータス更新
+const VALID_STATUSES = ['draft', 'review', 'approved', 'implemented']
+
+export function setSpecStatus(name: string, status: string): void {
+  if (!VALID_STATUSES.includes(status)) {
+    throw new Error(`無効なステータス: ${status}。有効な値: ${VALID_STATUSES.join(', ')}`)
+  }
+  const content = readSpec(name)
+  const updated = content.replace(/ステータス:\s*\w+/, `ステータス: ${status}`)
+  if (updated === content) throw new Error('ステータス行が見つかりません')
+  writeSpec(name, updated)
+}
+
 // 修正提案
 const PROPOSALS_PATH = () => join(getSpecsDir(), 'proposals', 'proposals.json')
+
+export function readProposals(): SpecChangeProposal[] {
+  const path = PROPOSALS_PATH()
+  if (!existsSync(path)) return []
+  return JSON.parse(readFileSync(path, 'utf-8'))
+}
+
+export function getProposal(id: string): SpecChangeProposal | undefined {
+  return readProposals().find(p => p.id === id)
+}
 
 export function saveProposal(proposal: SpecChangeProposal): void {
   const dir = join(getSpecsDir(), 'proposals')
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
-  const existing: SpecChangeProposal[] = existsSync(PROPOSALS_PATH())
-    ? JSON.parse(readFileSync(PROPOSALS_PATH(), 'utf-8'))
-    : []
+  const existing = readProposals().filter(p => p.id !== proposal.id)
   writeFileSync(PROPOSALS_PATH(), JSON.stringify([...existing, proposal], null, 2), 'utf-8')
 }
