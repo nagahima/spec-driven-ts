@@ -1,0 +1,295 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 2440" width="1040" height="2440">
+  <style>
+    .title { font: 700 26px system-ui, -apple-system, sans-serif; fill: #111; }
+    .subtitle { font: 400 14px system-ui, sans-serif; fill: #555; }
+    .col-label { font: 600 18px system-ui, sans-serif; fill: #333; }
+    .row-label { font: 700 18px system-ui, sans-serif; fill: #333; }
+    .row-desc { font: 400 12px system-ui, sans-serif; fill: #777; }
+    .face-frame { fill: none; stroke: #1a1a1a; stroke-width: 4; }
+  </style>
+
+  <defs>
+    <clipPath id="watchClip"><rect x="0" y="0" width="410" height="502" rx="80" ry="80"/></clipPath>
+
+    <!-- ============ painting ============ -->
+    <radialGradient id="paintingBg" cx="38%" cy="32%" r="85%">
+      <stop offset="0%" stop-color="#b87142"/>
+      <stop offset="35%" stop-color="#6b3418"/>
+      <stop offset="75%" stop-color="#2e160a"/>
+      <stop offset="100%" stop-color="#120804"/>
+    </radialGradient>
+    <filter id="paintTex" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.18 0"/>
+    </filter>
+
+    <!-- ============ impressionist (pointillist) ============ -->
+    <pattern id="impDots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="4" r="2.6" fill="#f4c8d8" opacity="0.85"/>
+      <circle cx="11" cy="3" r="2.2" fill="#a6c8e8" opacity="0.8"/>
+      <circle cx="6" cy="11" r="2.8" fill="#e0c4ec" opacity="0.7"/>
+      <circle cx="13" cy="13" r="2.0" fill="#fff4c8" opacity="0.85"/>
+      <circle cx="1" cy="13" r="1.8" fill="#c8a8d8" opacity="0.7"/>
+    </pattern>
+    <linearGradient id="impBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dde6ec"/>
+      <stop offset="55%" stop-color="#b6c4dc"/>
+      <stop offset="100%" stop-color="#8a9cbc"/>
+    </linearGradient>
+
+    <!-- ============ monotone mechanical ============ -->
+    <pattern id="mechGrid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#080808"/>
+      <circle cx="20" cy="20" r="14" fill="none" stroke="#666" stroke-width="0.4"/>
+      <circle cx="20" cy="20" r="6" fill="none" stroke="#999" stroke-width="0.3"/>
+      <line x1="20" y1="6" x2="20" y2="9" stroke="#666" stroke-width="0.4"/>
+      <line x1="20" y1="31" x2="20" y2="34" stroke="#666" stroke-width="0.4"/>
+      <line x1="6" y1="20" x2="9" y2="20" stroke="#666" stroke-width="0.4"/>
+      <line x1="31" y1="20" x2="34" y2="20" stroke="#666" stroke-width="0.4"/>
+    </pattern>
+
+    <!-- ============ nature pattern (leaf veins) ============ -->
+    <linearGradient id="natureBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#243d2c"/>
+      <stop offset="60%" stop-color="#13241a"/>
+      <stop offset="100%" stop-color="#070d09"/>
+    </linearGradient>
+    <symbol id="leafVeins" viewBox="0 0 410 502">
+      <!-- central rib -->
+      <path d="M 205 30 Q 215 250 200 480" stroke="#7ea88c" stroke-width="1.6" fill="none" opacity="0.45"/>
+      <!-- side veins -->
+      <path d="M 205 70 Q 130 90 60 130" stroke="#7ea88c" stroke-width="0.9" fill="none" opacity="0.35"/>
+      <path d="M 205 70 Q 280 92 360 130" stroke="#7ea88c" stroke-width="0.9" fill="none" opacity="0.35"/>
+      <path d="M 205 140 Q 110 165 30 220" stroke="#7ea88c" stroke-width="0.9" fill="none" opacity="0.32"/>
+      <path d="M 205 140 Q 300 165 380 220" stroke="#7ea88c" stroke-width="0.9" fill="none" opacity="0.32"/>
+      <path d="M 205 220 Q 110 250 30 320" stroke="#7ea88c" stroke-width="0.8" fill="none" opacity="0.3"/>
+      <path d="M 205 220 Q 300 250 380 320" stroke="#7ea88c" stroke-width="0.8" fill="none" opacity="0.3"/>
+      <path d="M 200 320 Q 120 350 50 410" stroke="#7ea88c" stroke-width="0.7" fill="none" opacity="0.28"/>
+      <path d="M 200 320 Q 290 350 360 410" stroke="#7ea88c" stroke-width="0.7" fill="none" opacity="0.28"/>
+      <!-- finer capillaries -->
+      <path d="M 160 105 Q 130 125 110 155" stroke="#7ea88c" stroke-width="0.4" fill="none" opacity="0.25"/>
+      <path d="M 250 105 Q 280 125 300 155" stroke="#7ea88c" stroke-width="0.4" fill="none" opacity="0.25"/>
+      <path d="M 150 195 Q 115 215 95 250" stroke="#7ea88c" stroke-width="0.4" fill="none" opacity="0.22"/>
+      <path d="M 260 195 Q 295 215 315 250" stroke="#7ea88c" stroke-width="0.4" fill="none" opacity="0.22"/>
+    </symbol>
+  </defs>
+
+  <!-- page background -->
+  <rect width="1040" height="2440" fill="#f5f5f5"/>
+
+  <!-- ============ Headers ============ -->
+  <text x="520" y="40" text-anchor="middle" class="title">Apple Watch Ultra — 文字盤プレビュー</text>
+  <text x="520" y="62" text-anchor="middle" class="subtitle">表示時刻 03:30 / バッテリー 50% (5/10) / 配色は背景に同化、ギリギリ読める想定</text>
+  <text x="280" y="100" text-anchor="middle" class="col-label">analog</text>
+  <text x="775" y="100" text-anchor="middle" class="col-label">digital</text>
+
+  <!-- ============ ROW 1: painting ============ -->
+  <text x="20" y="380" class="row-label">painting</text>
+  <text x="20" y="400" class="row-desc">絵画風 / 油彩</text>
+
+  <!-- painting + analog -->
+  <g transform="translate(75, 130)">
+    <g clip-path="url(#watchClip)">
+      <rect width="410" height="502" fill="url(#paintingBg)"/>
+      <rect width="410" height="502" filter="url(#paintTex)"/>
+      <path d="M 30 80 Q 200 40 380 100" stroke="#d8a070" stroke-width="9" fill="none" opacity="0.25" stroke-linecap="round"/>
+      <path d="M 40 200 Q 230 245 380 215" stroke="#e8b890" stroke-width="6" fill="none" opacity="0.18" stroke-linecap="round"/>
+      <path d="M 30 380 Q 200 420 380 360" stroke="#a86028" stroke-width="11" fill="none" opacity="0.22" stroke-linecap="round"/>
+      <!-- analog hands at center (205,251), 03:30 -->
+      <line x1="205" y1="251" x2="321" y2="282" stroke="#f0d8b0" stroke-width="3.5" opacity="0.40" stroke-linecap="round"/>
+      <line x1="205" y1="251" x2="205" y2="411" stroke="#f0d8b0" stroke-width="2.5" opacity="0.45" stroke-linecap="round"/>
+      <circle cx="205" cy="251" r="4" fill="#f0d8b0" opacity="0.45"/>
+      <!-- battery: stroke (brushstroke) along top arc, 5/10 filled -->
+      <path d="M 90 60 Q 205 38 320 60" stroke="#5a2c14" stroke-width="5" fill="none" opacity="0.55" stroke-linecap="round"/>
+      <path d="M 90 60 Q 147 47 205 41" stroke="#f0d8b0" stroke-width="5" fill="none" opacity="0.40" stroke-linecap="round"/>
+    </g>
+    <rect width="410" height="502" rx="80" class="face-frame"/>
+  </g>
+
+  <!-- painting + digital -->
+  <g transform="translate(570, 130)">
+    <g clip-path="url(#watchClip)">
+      <rect width="410" height="502" fill="url(#paintingBg)"/>
+      <rect width="410" height="502" filter="url(#paintTex)"/>
+      <path d="M 30 80 Q 200 40 380 100" stroke="#d8a070" stroke-width="9" fill="none" opacity="0.25" stroke-linecap="round"/>
+      <path d="M 40 200 Q 230 245 380 215" stroke="#e8b890" stroke-width="6" fill="none" opacity="0.18" stroke-linecap="round"/>
+      <path d="M 30 380 Q 200 420 380 360" stroke="#a86028" stroke-width="11" fill="none" opacity="0.22" stroke-linecap="round"/>
+      <!-- digital "03:30" centered -->
+      <text x="205" y="285" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="92" font-weight="300" fill="#f0d8b0" opacity="0.40">03:30</text>
+      <!-- battery -->
+      <path d="M 90 60 Q 205 38 320 60" stroke="#5a2c14" stroke-width="5" fill="none" opacity="0.55" stroke-linecap="round"/>
+      <path d="M 90 60 Q 147 47 205 41" stroke="#f0d8b0" stroke-width="5" fill="none" opacity="0.40" stroke-linecap="round"/>
+    </g>
+    <rect width="410" height="502" rx="80" class="face-frame"/>
+  </g>
+
+  <!-- ============ ROW 2: impressionist ============ -->
+  <text x="20" y="940" class="row-label">impression-</text>
+  <text x="20" y="960" class="row-label">ist</text>
+  <text x="20" y="980" class="row-desc">印象派 / 点描</text>
+
+  <!-- impressionist + analog -->
+  <g transform="translate(75, 690)">
+    <g clip-path="url(#watchClip)">
+      <rect width="410" height="502" fill="url(#impBg)"/>
+      <rect width="410" height="502" fill="url(#impDots)"/>
+      <!-- soft glow center -->
+      <circle cx="180" cy="200" r="180" fill="#ffeac8" opacity="0.18"/>
+      <!-- analog hands -->
+      <line x1="205" y1="251" x2="321" y2="282" stroke="#3a4858" stroke-width="3" opacity="0.35" stroke-linecap="round"/>
+      <line x1="205" y1="251" x2="205" y2="411" stroke="#3a4858" stroke-width="2" opacity="0.40" stroke-linecap="round"/>
+      <circle cx="205" cy="251" r="3.5" fill="#3a4858" opacity="0.4"/>
+      <!-- battery: orb cluster top center, 10 dots, 5 brighter -->
+      <g>
+        <circle cx="155" cy="55" r="5" fill="#fff4c8" opacity="0.65"/>
+        <circle cx="170" cy="48" r="5" fill="#f4c8d8" opacity="0.65"/>
+        <circle cx="185" cy="44" r="5" fill="#e0c4ec" opacity="0.65"/>
+        <circle cx="200" cy="42" r="5" fill="#a6c8e8" opacity="0.65"/>
+        <circle cx="215" cy="44" r="5" fill="#fff4c8" opacity="0.65"/>
+        <circle cx="230" cy="48" r="4" fill="#3a4858" opacity="0.18"/>
+        <circle cx="245" cy="54" r="4" fill="#3a4858" opacity="0.18"/>
+        <circle cx="260" cy="62" r="4" fill="#3a4858" opacity="0.18"/>
+        <circle cx="275" cy="72" r="4" fill="#3a4858" opacity="0.18"/>
+        <circle cx="290" cy="84" r="4" fill="#3a4858" opacity="0.18"/>
+      </g>
+    </g>
+    <rect width="410" height="502" rx="80" class="face-frame"/>
+  </g>
+
+  <!-- impressionist + digital -->
+  <g transform="translate(570, 690)">
+    <g clip-path="url(#watchClip)">
+      <rect width="410" height="502" fill="url(#impBg)"/>
+      <rect width="410" height="502" fill="url(#impDots)"/>
+      <circle cx="180" cy="200" r="180" fill="#ffeac8" opacity="0.18"/>
+      <text x="205" y="285" text-anchor="middle" font-family="Georgia, serif" font-size="86" font-weight="300" fill="#3a4858" opacity="0.38">03:30</text>
+      <!-- battery dots -->
+      <g>
+        <circle cx="155" cy="55" r="5" fill="#fff4c8" opacity="0.65"/>
+        <circle cx="170" cy="48" r="5" fill="#f4c8d8" opacity="0.65"/>
+        <circle cx="185" cy="44" r="5" fill="#e0c4ec" opacity="0.65"/>
+        <circle cx="200" cy="42" r="5" fill="#a6c8e8" opacity="0.65"/>
+        <circle cx="215" cy="44" r="5" fill="#fff4c8" opacity="0.65"/>
+        <circle cx="230" cy="48" r="4" fill="#3a4858" opacity="0.18"/>
+        <circle cx="245" cy="54" r="4" fill="#3a4858" opacity="0.18"/>
+        <circle cx="260" cy="62" r="4" fill="#3a4858" opacity="0.18"/>
+        <circle cx="275" cy="72" r="4" fill="#3a4858" opacity="0.18"/>
+        <circle cx="290" cy="84" r="4" fill="#3a4858" opacity="0.18"/>
+      </g>
+    </g>
+    <rect width="410" height="502" rx="80" class="face-frame"/>
+  </g>
+
+  <!-- ============ ROW 3: monotone-mechanical ============ -->
+  <text x="20" y="1500" class="row-label">monotone-</text>
+  <text x="20" y="1520" class="row-label">mechanical</text>
+  <text x="20" y="1540" class="row-desc">モノトーン機械</text>
+
+  <!-- mech + analog -->
+  <g transform="translate(75, 1250)">
+    <g clip-path="url(#watchClip)">
+      <rect width="410" height="502" fill="url(#mechGrid)"/>
+      <!-- big concentric gear -->
+      <g transform="translate(205 251)" opacity="0.55">
+        <circle r="160" fill="none" stroke="#888" stroke-width="0.6"/>
+        <circle r="120" fill="none" stroke="#888" stroke-width="0.5"/>
+        <circle r="80" fill="none" stroke="#aaa" stroke-width="0.5"/>
+        <circle r="40" fill="none" stroke="#bbb" stroke-width="0.4"/>
+        <!-- gear teeth on r=180 -->
+        <g stroke="#888" stroke-width="1" fill="none">
+          <line x1="0" y1="-180" x2="0" y2="-160"/>
+          <line x1="0" y1="180" x2="0" y2="160"/>
+          <line x1="-180" y1="0" x2="-160" y2="0"/>
+          <line x1="180" y1="0" x2="160" y2="0"/>
+          <line x1="127" y1="-127" x2="113" y2="-113"/>
+          <line x1="-127" y1="-127" x2="-113" y2="-113"/>
+          <line x1="127" y1="127" x2="113" y2="113"/>
+          <line x1="-127" y1="127" x2="-113" y2="113"/>
+        </g>
+      </g>
+      <!-- analog hands -->
+      <line x1="205" y1="251" x2="321" y2="282" stroke="#e8e8e8" stroke-width="2.5" opacity="0.45" stroke-linecap="round"/>
+      <line x1="205" y1="251" x2="205" y2="411" stroke="#e8e8e8" stroke-width="1.6" opacity="0.50" stroke-linecap="round"/>
+      <circle cx="205" cy="251" r="3" fill="#e8e8e8" opacity="0.5"/>
+      <!-- battery: arc on perimeter, 5/10 -->
+      <g transform="translate(205 251)">
+        <path d="M -160 -50 A 168 168 0 0 1 160 -50" fill="none" stroke="#444" stroke-width="2" opacity="0.6"/>
+        <path d="M -160 -50 A 168 168 0 0 1 0 -168" fill="none" stroke="#dddddd" stroke-width="2" opacity="0.55"/>
+        <!-- tick marks at 10% steps -->
+        <g stroke="#aaa" stroke-width="0.6" opacity="0.5">
+          <line x1="-160" y1="-50" x2="-152" y2="-47"/>
+          <line x1="-128" y1="-108" x2="-122" y2="-103"/>
+          <line x1="-82" y1="-148" x2="-78" y2="-141"/>
+          <line x1="-30" y1="-166" x2="-29" y2="-158"/>
+          <line x1="30" y1="-166" x2="29" y2="-158"/>
+          <line x1="82" y1="-148" x2="78" y2="-141"/>
+          <line x1="128" y1="-108" x2="122" y2="-103"/>
+          <line x1="160" y1="-50" x2="152" y2="-47"/>
+        </g>
+      </g>
+    </g>
+    <rect width="410" height="502" rx="80" class="face-frame"/>
+  </g>
+
+  <!-- mech + digital -->
+  <g transform="translate(570, 1250)">
+    <g clip-path="url(#watchClip)">
+      <rect width="410" height="502" fill="url(#mechGrid)"/>
+      <g transform="translate(205 251)" opacity="0.55">
+        <circle r="160" fill="none" stroke="#888" stroke-width="0.6"/>
+        <circle r="120" fill="none" stroke="#888" stroke-width="0.5"/>
+        <circle r="80" fill="none" stroke="#aaa" stroke-width="0.5"/>
+      </g>
+      <text x="205" y="285" text-anchor="middle" font-family="'Courier New', Menlo, monospace" font-size="80" font-weight="400" fill="#dddddd" opacity="0.45" letter-spacing="2">03:30</text>
+      <g transform="translate(205 251)">
+        <path d="M -160 -50 A 168 168 0 0 1 160 -50" fill="none" stroke="#444" stroke-width="2" opacity="0.6"/>
+        <path d="M -160 -50 A 168 168 0 0 1 0 -168" fill="none" stroke="#dddddd" stroke-width="2" opacity="0.55"/>
+      </g>
+    </g>
+    <rect width="410" height="502" rx="80" class="face-frame"/>
+  </g>
+
+  <!-- ============ ROW 4: nature-pattern ============ -->
+  <text x="20" y="2060" class="row-label">nature-</text>
+  <text x="20" y="2080" class="row-label">pattern</text>
+  <text x="20" y="2100" class="row-desc">自然パターン / 葉脈</text>
+
+  <!-- nature + analog -->
+  <g transform="translate(75, 1810)">
+    <g clip-path="url(#watchClip)">
+      <rect width="410" height="502" fill="url(#natureBg)"/>
+      <use href="#leafVeins" width="410" height="502"/>
+      <!-- analog hands -->
+      <line x1="205" y1="251" x2="321" y2="282" stroke="#cae0d2" stroke-width="3" opacity="0.40" stroke-linecap="round"/>
+      <line x1="205" y1="251" x2="205" y2="411" stroke="#cae0d2" stroke-width="2" opacity="0.45" stroke-linecap="round"/>
+      <circle cx="205" cy="251" r="3.5" fill="#cae0d2" opacity="0.45"/>
+      <!-- battery: stroke (vein-like) at top, 5/10 -->
+      <path d="M 90 55 Q 150 40 205 38 Q 260 36 320 50" stroke="#3a5440" stroke-width="2.2" fill="none" opacity="0.6"/>
+      <path d="M 90 55 Q 130 44 165 40 Q 195 38 205 38" stroke="#cae0d2" stroke-width="2.2" fill="none" opacity="0.5"/>
+      <!-- vein branch tick marks -->
+      <g stroke="#cae0d2" stroke-width="0.8" opacity="0.45">
+        <line x1="105" y1="51" x2="100" y2="62"/>
+        <line x1="135" y1="44" x2="132" y2="55"/>
+        <line x1="165" y1="40" x2="164" y2="51"/>
+        <line x1="195" y1="38" x2="195" y2="49"/>
+        <line x1="205" y1="38" x2="205" y2="49"/>
+      </g>
+    </g>
+    <rect width="410" height="502" rx="80" class="face-frame"/>
+  </g>
+
+  <!-- nature + digital -->
+  <g transform="translate(570, 1810)">
+    <g clip-path="url(#watchClip)">
+      <rect width="410" height="502" fill="url(#natureBg)"/>
+      <use href="#leafVeins" width="410" height="502"/>
+      <text x="205" y="285" text-anchor="middle" font-family="Georgia, serif" font-size="84" font-weight="300" fill="#cae0d2" opacity="0.40">03:30</text>
+      <path d="M 90 55 Q 150 40 205 38 Q 260 36 320 50" stroke="#3a5440" stroke-width="2.2" fill="none" opacity="0.6"/>
+      <path d="M 90 55 Q 130 44 165 40 Q 195 38 205 38" stroke="#cae0d2" stroke-width="2.2" fill="none" opacity="0.5"/>
+    </g>
+    <rect width="410" height="502" rx="80" class="face-frame"/>
+  </g>
+
+  <!-- footer note -->
+  <text x="520" y="2400" text-anchor="middle" class="subtitle">バッテリーは10%刻みで判別できる範囲、各テーマの装飾と統合（数字表示なし）</text>
+</svg>
