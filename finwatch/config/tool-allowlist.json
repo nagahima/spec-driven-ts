@@ -1,0 +1,11 @@
+{
+  "$comment": "ADR-0006: read-onlyツールのみ。追加はPRレビュー必須。Phase 2でtools snapshotを取得後、実在ツール名と突合して確定させること",
+  "edinetdb": [
+    "search_companies",
+    "get_company",
+    "get_financials",
+    "get_text_blocks",
+    "get_earnings",
+    "get_documentation"
+  ]
+}

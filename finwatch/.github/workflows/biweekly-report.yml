@@ -1,0 +1,22 @@
+# NOTE: このファイルはリポジトリルートの .github/workflows/ 配下にないためGitHubには認識されない(意図的)。
+# Phase 4でreport生成が実装されたタイミングで、working-directory: finwatch を付与してルートへ移動し有効化する。
+name: biweekly-report
+on:
+  schedule:
+    - cron: "0 0 1-7,15-21 * 4"  # 第1・第3木曜近似(木曜のうち月内1-7日,15-21日) JST補正はPhase 4で調整
+  workflow_dispatch: {}
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: actions/cache@v4
+        with: { path: .cache/finwatch.sqlite, key: finwatch-cache }
+      - run: npm ci
+      - run: npm run report:generate
+        env:
+          EDINETDB_API_KEY: ${{ secrets.EDINETDB_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      # 失敗時Issue起票・成果物コミットはPhase 4で実装(SLO: 当日中の完了)

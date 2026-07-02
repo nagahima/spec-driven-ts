@@ -1,0 +1,5 @@
+{
+  "$comment": "ADR-0010",
+  "perRun": { "maxInputTokens": 200000, "maxOutputTokens": 8000, "maxToolCalls": 40 },
+  "models": { "agent": "claude-sonnet-4-6", "formatting": "claude-haiku-4-5-20251001" }
+}

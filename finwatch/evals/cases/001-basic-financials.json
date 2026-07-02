@@ -1,0 +1,11 @@
+{
+  "$comment": "ADR-0009: 期待は完全一致でなく述語判定。k=3試行、2/3成功でケース合格",
+  "id": "001",
+  "question": "三協立山の直近3期の売上高と営業利益率の推移を教えて",
+  "expect": {
+    "toolSequence": { "mustInclude": ["get_financials"], "mustNotInclude": [] },
+    "argPredicates": [
+      { "tool": "get_financials", "predicate": "args references 三協立山 or its company code (resolved via search_companies if needed)" }
+    ]
+  }
+}

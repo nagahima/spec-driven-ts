@@ -1,0 +1,12 @@
+{
+  "$comment": "ADR-0001: MCPサーバーレジストリ。追加はここに宣言するだけでプラガブルに接続される",
+  "servers": [
+    {
+      "id": "edinetdb",
+      "transport": "streamable-http",
+      "url": "https://edinetdb.jp/mcp",
+      "authEnvVar": "EDINETDB_API_KEY",
+      "authScheme": "bearer"
+    }
+  ]
+}

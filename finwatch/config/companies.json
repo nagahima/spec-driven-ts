@@ -1,0 +1,13 @@
+{
+  "companies": [
+    { "name": "三協立山", "secCode": "5932", "note": "アルミ建材・サッシ" },
+    { "name": "LIXIL", "secCode": "5938", "note": "住宅設備・建材" },
+    { "name": "三和ホールディングス", "secCode": "5929", "note": "シャッター・ドア" },
+    { "name": "不二サッシ", "secCode": "5940", "note": "サッシ・カーテンウォール" }
+  ],
+  "outOfScope": [
+    { "name": "YKK AP", "reason": "非上場のためEDINET対象外 (ADR-0002)" },
+    { "name": "Reynaers / WICONA", "reason": "海外企業のためEDINET対象外 (ADR-0002)" }
+  ],
+  "metrics": ["売上高", "営業利益", "営業利益率", "セグメント情報", "設備投資", "研究開発費"]
+}

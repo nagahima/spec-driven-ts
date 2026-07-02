@@ -1,0 +1,28 @@
+name: finwatch-ci
+on:
+  push:
+    paths:
+      - "finwatch/**"
+      - ".github/workflows/finwatch-ci.yml"
+  pull_request:
+    paths:
+      - "finwatch/**"
+      - ".github/workflows/finwatch-ci.yml"
+defaults:
+  run:
+    working-directory: finwatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: finwatch/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      # L3 eval は agent/prompts 変更時のみ(ADR-0009/0010) — Phase 4でpaths条件を追加
