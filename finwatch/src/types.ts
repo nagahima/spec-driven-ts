@@ -21,9 +21,9 @@ export interface ToolResult {
   /** zodパース・正規化済み。生レスポンスは保持しない(threat-model I) */
   data: unknown;
   meta: {
-    fetchedAt: string;      // ISO8601。鮮度SLIの源泉
+    fetchedAt: string; // ISO8601。鮮度SLIの源泉
     fromCache: boolean;
-    stale: boolean;         // TTL超過キャッシュをデグラデーションで返した場合true
+    stale: boolean; // TTL超過キャッシュをデグラデーションで返した場合true
   };
 }
 
@@ -31,7 +31,11 @@ export interface ToolResult {
 export interface ResiliencePolicy {
   execute<T>(key: CacheKey, fn: () => Promise<T>): Promise<{ value: T; meta: ToolResult["meta"] }>;
 }
-export interface CacheKey { tool: string; argsHash: string; ttlSeconds: number; }
+export interface CacheKey {
+  tool: string;
+  argsHash: string;
+  ttlSeconds: number;
+}
 
 /** ADR-0010: 予算超過はBudgetExceededErrorで打ち切り、部分結果を返す(fail-visible) */
 export interface BudgetTracker {
@@ -43,7 +47,7 @@ export interface BudgetTracker {
 export interface CompanySnapshot {
   name: string;
   secCode: string;
-  financials: ToolResult;         // 機械転記の源泉
-  narrative: string;              // LLM生成はここだけ
-  completeness: number;           // 0..1、完全性SLI
+  financials: ToolResult; // 機械転記の源泉
+  narrative: string; // LLM生成はここだけ
+  completeness: number; // 0..1、完全性SLI
 }
